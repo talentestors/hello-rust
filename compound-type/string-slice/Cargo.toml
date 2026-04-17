@@ -1,0 +1,7 @@
+[package]
+name = "string-slice"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+utf8_slice = "1.0.0"
