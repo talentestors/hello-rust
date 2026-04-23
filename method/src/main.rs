@@ -41,6 +41,12 @@ impl Circle {
         }
     }
 
+    fn calc_distance(c1: &Circle, c2: &Circle) -> f64 {
+        let dx: f64 = c1.x - c2.x;
+        let dy: f64 = c1.y - c2.y;
+        (dx * dx + dy * dy).sqrt()
+    }
+
     // Circle的方法，&self表示借用当前的Circle结构体
     fn area(&self) -> f64 {
         std::f64::consts::PI * (self.radius * self.radius)
@@ -68,4 +74,9 @@ fn main() {
 
     println!("Can rect1 hold rect2? {}", rect1.can_hold(&rect2));
     println!("Can rect1 hold rect3? {}", rect1.can_hold(&rect3));
+
+    println!(
+        "c1 and c2 distance: {}",
+        Circle::calc_distance(&Circle::new(0.0, 0.0, 5.0), &Circle::new(3.0, 4.0, 5.0))
+    );
 }
