@@ -1,8 +1,8 @@
-struct Interface<'a> {
-    manager: &'a mut Manager<'a>,
+struct Interface<'b, 'a: 'b> {
+    manager: &'b mut Manager<'a>,
 }
 
-impl<'a> Interface<'a> {
+impl<'b, 'a: 'b> Interface<'b, 'a> {
     pub fn noop(self) {
         println!("interface consumed");
     }
@@ -17,7 +17,10 @@ struct List<'a> {
 }
 
 impl<'a> List<'a> {
-    pub fn get_interface(&'a mut self) -> Interface {
+    pub fn get_interface<'b>(&'b mut self) -> Interface<'b, 'a>
+    where
+        'a: 'b,
+    {
         Interface {
             manager: &mut self.manager,
         }
@@ -33,8 +36,7 @@ fn main() {
 
     println!("Interface should be dropped here and the borrow released");
 
-    // 下面的调用会失败，因为同时有不可变/可变借用
-    // 但是Interface在之前调用完成后就应该被释放了
+    // 下面的调用可以通过，因为Interface的生命周期不需要跟list一样长
     use_list(&list);
 }
 
