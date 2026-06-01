@@ -1,0 +1,18 @@
+[package]
+name = "iterator"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+[dev-dependencies]
+criterion = "0.8.2"
+rand = "0.10.1"
+
+[[bench]]
+name = "sum_bench"
+harness = false
+
+[profile.bench]
+codegen-units = 1
+lto = true
