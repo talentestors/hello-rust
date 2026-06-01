@@ -1,0 +1,1 @@
+Rust Smart Point
