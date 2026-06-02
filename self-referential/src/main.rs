@@ -1,19 +1,19 @@
 #[derive(Debug)]
 struct SelfRef {
     value: String,
-    pointer_to_value: *const String,
+    pointer_to_value: *mut String,
 }
 
 impl SelfRef {
     fn new(txt: &str) -> Self {
         SelfRef {
             value: String::from(txt),
-            pointer_to_value: std::ptr::null(),
+            pointer_to_value: std::ptr::null_mut(),
         }
     }
 
     fn init(&mut self) {
-        let self_ref: *const String = &self.value;
+        let self_ref: *mut String = &mut self.value;
         self.pointer_to_value = self_ref;
     }
 
@@ -33,6 +33,12 @@ impl SelfRef {
 fn main() {
     let mut t = SelfRef::new("hello");
     t.init();
-    // 打印值和指针地址
+    println!("{}, {:p}", t.value(), t.pointer_to_value());
+
+    t.value.push_str(", world");
+    unsafe {
+        (&mut *t.pointer_to_value).push_str("!");
+    }
+
     println!("{}, {:p}", t.value(), t.pointer_to_value());
 }
