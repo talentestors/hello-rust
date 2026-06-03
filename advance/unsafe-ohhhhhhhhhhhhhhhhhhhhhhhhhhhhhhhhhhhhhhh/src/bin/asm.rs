@@ -11,7 +11,7 @@ fn main() {
     unsafe {
         asm!(
             "push rbx",
-            "cpuid",
+            "cpuid", // CPUID 返回的 ASCII 字符串在内存中的顺序规定为：先 ebx 的低字节到高字节，然后是 edx，最后是 ecx
             "mov [rdi], ebx",
             "mov [rdi + 4], edx",
             "mov [rdi + 8], ecx",
@@ -36,14 +36,30 @@ fn main() {
 
 // use std::arch::asm;
 
+// Multiply x by 6 using shifts and adds
+// let mut x: u64 = 4;
+// unsafe {
+//     asm!(
+//         "mov {tmp}, {x}", // 复制x到tmp
+//         "shl {tmp}, 1",  // tmp左移1位（乘2）
+//         "shl {x}, 2",    // x左移2位（乘4）
+//         "add {x}, {tmp}", // 相加并存入x x + tmp = 4*2+4*4 = 4*(2+4) = 4*6
+//         x = inout(reg) x, // x 既是输入也是输出，使用通用寄存器（reg）
+//         tmp = out(reg) _, // tmp 是只写输出；‘_’表示不需要把值赋给某个 Rust 变量
+//     );
+// }
+// assert_eq!(x, 4 * 6);
+
+// use std::arch::asm;
+
 // let i: u64 = 3;
 // let o: u64;
 // unsafe {
 //     asm!(
 //         "mov {0}, {1}",
 //         "add {0}, 5",
-//         out(reg) o,
-//         in(reg) i,
+//         out(reg) o, // 0
+//         in(reg) i, // 1
 //     );
 // }
 // assert_eq!(o, 8);
