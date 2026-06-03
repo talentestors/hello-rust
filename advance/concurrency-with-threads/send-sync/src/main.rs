@@ -25,3 +25,17 @@ fn main() {
 
     t.join().unwrap();
 }
+// use std::sync::Arc;
+// use std::thread;
+
+// fn main() {
+//     let x = 5;
+//     let v = Arc::new(&x as *const i32 as usize);
+//     let t = thread::spawn(move || {
+//         let v1 = unsafe { (*v as *const i32).read() };
+//         println!("{}", v1);
+//     });
+
+//     t.join().unwrap();
+//     println!("{}", x);
+// }
