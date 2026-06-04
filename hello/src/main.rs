@@ -2,6 +2,8 @@ use std::{
     fs,
     io::{BufReader, prelude::*},
     net::{TcpListener, TcpStream},
+    thread,
+    time::Duration,
 };
 
 fn main() {
@@ -10,7 +12,9 @@ fn main() {
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
-        handle_connection(stream);
+        thread::spawn(|| {
+            handle_connection(stream);
+        });
     }
 }
 
@@ -37,6 +41,13 @@ fn handle_connection(mut stream: TcpStream) {
             "HTTP/1.1 200 OK",
             fs::read_to_string("static/hello.html").unwrap(),
         ),
+        Ok("/sleep") => {
+            thread::sleep(Duration::from_secs(5));
+            (
+                "HTTP/1.1 200 OK",
+                fs::read_to_string("static/hello.html").unwrap(),
+            )
+        }
         Ok(_) => (
             "HTTP/1.1 404 NOT FOUND",
             fs::read_to_string("static/404.html").unwrap(),
