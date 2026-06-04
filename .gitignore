@@ -21,6 +21,7 @@ Cargo.lock
 rust-project.json
 
 *.exe
+*.obj
 *.dll
 *.so
 *.dylib
