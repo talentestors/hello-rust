@@ -14,16 +14,40 @@ fn main() {
     }
 }
 
+fn get_path(http_one: &str) -> Result<String, ()> {
+    let heads: Vec<&str> = http_one.split_whitespace().collect();
+    if heads.len() < 2 {
+        return Err(());
+    }
+    Ok(heads[1].to_string())
+}
+
 fn handle_connection(mut stream: TcpStream) {
     let buf_reader = BufReader::new(&mut stream);
-    let http_request: Vec<_> = buf_reader
-        .lines()
-        .map(|result| result.unwrap())
-        .take_while(|line| !line.is_empty())
-        .collect();
+    let Some(Ok(request_line)) = buf_reader.lines().next() else {
+        let response = "HTTP/1.1 400 Bad Request\r\n\r\n";
+        stream.write_all(response.as_bytes()).unwrap();
+        return;
+    };
 
-    let status_line = "HTTP/1.1 200 OK";
-    let contents = fs::read_to_string("static/hello.html").unwrap();
+    let path = get_path(&request_line);
+
+    let (status_line, contents) = match path.as_deref() {
+        Ok("/") => (
+            "HTTP/1.1 200 OK",
+            fs::read_to_string("static/hello.html").unwrap(),
+        ),
+        Ok(_) => (
+            "HTTP/1.1 404 NOT FOUND",
+            fs::read_to_string("static/404.html").unwrap(),
+        ),
+        Err(_) => ("HTTP/1.1 500 Internal Server Error", String::new()),
+    };
+
+    if let Ok(path) = &path {
+        println!("path: {}\nstatus: {}", path, status_line);
+    }
+
     let length = contents.len();
 
     let response = format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
