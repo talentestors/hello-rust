@@ -1,3 +1,4 @@
+/// x86 64
 use std::arch::asm;
 
 fn main() {
