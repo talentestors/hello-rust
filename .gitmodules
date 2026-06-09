@@ -1,3 +1,6 @@
 [submodule "rust-course"]
 	path = rust-course
 	url = git@github.com:sunface/rust-course.git
+[submodule "advance-practice/mini-redis"]
+	path = advance-practice/mini-redis
+	url = git@github.com:tokio-rs/mini-redis.git
