@@ -10,6 +10,10 @@ pub struct Guess {
     value: i32,
 }
 
+pub fn add_two(x: i32) -> i32 {
+    x + 2
+}
+
 impl Guess {
     pub fn new(value: i32) -> Guess {
         if value < 1 || value > 100 {
