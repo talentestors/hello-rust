@@ -1,15 +1,17 @@
-// in examples/figure_0/main.rs
-
-use tracing::info;
+use tracing::{debug_span, info, info_span};
 use tracing_subscriber::prelude::*;
 
 mod custom_layer;
 use custom_layer::CustomLayer;
 
 fn main() {
-    // 设置 `tracing-subscriber` 对 tracing 数据的处理方式
     tracing_subscriber::registry().with(CustomLayer).init();
 
-    // 打印一条简单的日志。用 `tracing` 的行话来说，`info!` 将创建一个事件
+    let outer_span = info_span!("outer", level = 0);
+    let _outer_entered = outer_span.enter();
+
+    let inner_span = debug_span!("inner", level = 1);
+    let _inner_entered = inner_span.enter();
+
     info!(a_bool = true, answer = 42, message = "first example");
 }
