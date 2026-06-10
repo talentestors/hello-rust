@@ -1,0 +1,3 @@
+[build]
+rustc-wrapper = "sccache"
+# 为了设置 sccache，首先需要使用 cargo install sccache 进行安装，然后在调用 Cargo 之前将 RUSTC_WRAPPER 环境变量设置为 sccache。

@@ -1,0 +1,44 @@
+[package]
+name = "hello_utils"
+version = "0.1.0"
+edition = "2024"
+authors = ["talentestors", "Yuhiri"]
+description = "A short description of my package"
+documentation = "https://github.com/talentestors/"
+readme = "README.md"
+homepage = "https://yuhiri.me/"
+repository = "https://github.com/talentestors/hello-rust"
+license = "Unlicense"
+# license-file = "LICENSE.txt"
+keywords = ["rust", "learn"]
+categories = ["command-line-utilities", "development-tools::cargo-plugins"]
+# workspace = "path/to/workspace/root"
+# build = "build.rs"
+exclude = ["/ci", "images/", ".*"]
+include = ["/src", "COPYRIGHT", "/examples", "!/examples/big_example"]
+publish = false
+
+
+# 以下配置元数据可以在生成安卓 APK 时使用
+[package.metadata.android]
+package-name = "my-awesome-android-app"
+assets = "path/to/static"
+
+[badges]
+# `maintenance` 是项目的当前维护状态，它可能会被其它注册服务所使用，但是目前还没有被 `crates.io` 使用:  https://github.com/rust-lang/crates.io/issues/2437
+#
+# `status` 字段时必须的，以下是可用的选项:
+# - `actively-developed`: 新特性正在积极添加中，bug 在持续修复中
+# - `passively-maintained`: 目前没有计划去支持新的特性，但是项目维护者可能会回答你提出的 issue
+# - `as-is`: 该项目的功能已经完结，维护者不准备继续开发和提供支持了，但是它的功能已经达到了预期
+# - `experimental`: 作者希望同大家分享，但是还不准备满足任何人的特殊要求
+# - `looking-for-maintainer`: 当前维护者希望将项目转移给新的维护者
+# - `deprecated`: 不再推荐使用该项目，需要说明原因以及推荐的替代项目
+# - `none`:  不显示任何 badge ，因此维护者没有说明他们的状态，用户需要自己去调查发生了什么
+maintenance = { status = "none" }
+
+[dependencies]
+hello_utils = { path = "hello_utils" }
+# 以下路径也可以
+# hello_utils = { path = "./hello_utils" }
+# hello_utils = { path = "../hello_world/hello_utils" }
