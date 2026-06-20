@@ -4,3 +4,6 @@
 [submodule "advance-practice/mini-redis"]
 	path = advance-practice/mini-redis
 	url = git@github.com:tokio-rs/mini-redis.git
+[submodule "rust-by-practice"]
+	path = rust-by-practice
+	url = git@github.com:sunface/rust-by-practice.git
